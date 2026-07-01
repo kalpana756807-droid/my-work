@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>café · single page</title>
+  <!-- warm, cozy, cafe‑inspired design -->
+  <style>
+    /* ----- reset & base ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fcf8f2;  /* warm cream */
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      line-height: 1.5;
+      color: #2c241e;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ----- header / cafe branding ----- */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.8rem;
+      border-bottom: 2px solid #e6dbd0;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #3b2c23;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .logo span {
+      background: #d9c8b8;
+      color: #2c1f18;
+      font-size: 1rem;
+      font-weight: 400;
+      padding: 0.15rem 0.7rem;
+      border-radius: 60px;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      font-weight: 450;
+      color: #3f322a;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.2s;
+      position: relative;
+      font-size: 1rem;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #a5836a;
+      transition: width 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: #1f150f;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ----- hero (cafe mood) ----- */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 3.5rem 1rem 4rem;
+      background: #f5ede4;
+      margin: 2rem 0 1rem;
+      border-radius: 48px;
+      background-image: radial-gradient(circle at 10% 30%, rgba(215, 190, 170, 0.15) 0%, transparent 60%);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 9vw, 4.8rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      max-width: 800px;
+      color: #2a1e17;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: #dac2ae;
+      padding: 0 0.2rem;
+      border-radius: 12px 0 12px 0;
+      color: #1f140e;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #4e3b30;
+      max-width: 560px;
+      margin: 1rem 0 2.2rem;
+      padding: 0 0.5rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #3b2c23;
+      color: #fcf6ef;
+      padding: 0.8rem 2.4rem;
+      border-radius: 60px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #3b2c23;
+      border: 1px solid #b59a86;
+    }
+
+    .btn-outline:hover {
+      background: #efe3d8;
+      border-color: #7d6250;
+    }
+
+    .btn-primary {
+      background: #5e4031;
+    }
+
+    .btn-primary:hover {
+      background: #3f2c21;
+      transform: scale(1.02);
+      box-shadow: 0 10px 24px rgba(60, 40, 30, 0.10);
+    }
+
+    /* ----- cafe feature cards (3 columns) ----- */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0 2.5rem;
+    }
+
+    .feature-card {
+      background: #fffffffa;
+      padding: 2rem 1.5rem;
+      border-radius: 32px;
+      box-shadow: 0 6px 18px rgba(90, 65, 50, 0.04);
+      border: 1px solid #ede3d9;
+      transition: transform 0.2s ease, box-shadow 0.25s ease;
+      text-align: center;
+      backdrop-filter: blur(2px);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 34px -10px rgba(70, 50, 38, 0.10);
+      border-color: #d4bfae;
+    }
+
+    .feature-icon {
+      font-size: 2.8rem;
+      margin-bottom: 0.6rem;
+      display: inline-block;
+      line-height: 1.2;
+    }
+
+    .feature-card h3 {
+      font-weight: 600;
+      font-size: 1.4rem;
+      margin-bottom: 0.4rem;
+      color: #2d2019;
+      letter-spacing: -0.01em;
+    }
+
+    .feature-card p {
+      color: #524136;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* ----- special: cafe quote / daily brew ----- */
+    .quote-section {
+      margin: 2.5rem 0 1.5rem;
+      padding: 2.8rem 2rem;
+      background: #e8dbcf;
+      border-radius: 48px;
+      text-align: center;
+      border: 1px solid #d8c6b6;
+    }
+
+    .quote-section blockquote {
+      font-size: 1.6rem;
+      font-weight: 370;
+      letter-spacing: -0.01em;
+      color: #231a15;
+      max-width: 680px;
+      margin: 0 auto 1rem;
+      line-height: 1.3;
+    }
+
+    .quote-section figcaption {
+      font-style: normal;
+      color: #4d382c;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      font-size: 1rem;
+    }
+
+    .quote-section figcaption::before {
+      content: "☕ ";
+      opacity: 0.7;
+    }
+
+    /* ----- footer ----- */
+    .footer {
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 2px solid #e0d2c4;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: #4f3d32;
+      font-size: 0.95rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: #4f3d32;
+      transition: color 0.15s;
+      border-bottom: 1px dotted transparent;
+    }
+
+    .footer-links a:hover {
+      color: #1f140e;
+      border-bottom: 1px dotted #a5836a;
+    }
+
+    /* ----- badge & extra touch ----- */
+    .badge {
+      display: inline-block;
+      background: #dccfc2;
+      padding: 0.3rem 1.4rem;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: #2d1f18;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ----- responsive ----- */
+    @media (max-width: 640px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        gap: 1.2rem;
+        flex-wrap: wrap;
+      }
+
+      .hero {
+        padding: 2.5rem 0.5rem 3rem;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .btn-group {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+      }
+
+      .footer-links {
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .quote-section blockquote {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* small extra — smooth */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* decorative : coffee bean accent */
+    .logo::before {
+      content: "☕";
+      font-size: 1.6rem;
+      margin-right: 0.2rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- header : café -->
+  <header class="header">
+    <div class="logo">
+      brew<span>house</span>
+    </div>
+    <div class="nav-links">
+      <a href="#">menu</a>
+      <a href="#">story</a>
+      <a href="#">beans</a>
+      <a href="#">contact</a>
+    </div>
+  </header>
+
+  <!-- main -->
+  <main>
+
+    <!-- hero : cafe atmosphere -->
+    <section class="hero">
+      <span class="badge">✦ slow coffee · warm space</span>
+      <h1>
+        good <em>mornings</em><br />start with coffee
+      </h1>
+      <p>
+        A cozy corner for espresso, conversation, and quiet moments. 
+        Single‑origin beans, house‑roasted.
+      </p>
+      <div class="btn-group">
+        <a href="#" class="btn btn-primary">see the menu</a>
+        <a href="#" class="btn btn-outline">our story</a>
+      </div>
+    </section>
+
+    <!-- feature cards : cafe vibe -->
+    <div class="features">
+      <article class="feature-card">
+        <div class="feature-icon">☕</div>
+        <h3>espresso</h3>
+        <p>Rich, balanced, and pulled with care. Single origin or blend — your choice.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">🥐</div>
+        <h3>pastry</h3>
+        <p>Buttery croissants, danishes, and daily baked goods that pair perfectly.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">🫘</div>
+        <h3>beans</h3>
+        <p>We roast in‑house. Fresh, aromatic, and sourced from small farms.</p>
+      </article>
+    </div>
+
+    <!-- quote : cafe soul -->
+    <div class="quote-section">
+      <blockquote>
+        “Coffee is a language in itself. <br />Warm, inviting, and always honest.”
+      </blockquote>
+      <figcaption>— from the brew house journal</figcaption>
+    </div>
+
+  </main>
+
+  <!-- footer -->
+  <footer class="footer">
+    <span>© 2026 · brew house café</span>
+    <div class="footer-links">
+      <a href="#">instagram</a>
+      <a href="#">pinterest</a>
+      <a href="#">twitter</a>
+      <a href="#">reservations</a>
+    </div>
+  </footer>
+
+</div>
+<!-- end .page -->
+</body>
+</html>
